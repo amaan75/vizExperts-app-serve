@@ -1,0 +1,20 @@
+{
+  "basics": {
+    "name": "John Doe",
+    "label": "Programmer",
+    "picture": "",
+    "email": "john@gmail.com",
+    "phone": "(912) 555-4321",
+    "website": "http://johndoe.com",
+    "summary": "A summary of John Doe...",
+    "objective":
+      "Aiming to use my proven customer service, sales, and communication skills to effectively fill the managerial role in your company. Possess a BA in Communications.",
+    "location": {
+      "address": "2712 Broadway St",
+      "postalCode": "CA 94115",
+      "city": "San Francisco",
+      "countryCode": "US",
+      "region": "California"
+    }
+  }
+}

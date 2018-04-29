@@ -1,0 +1,17 @@
+.app-container {
+    width: 100%;
+    overflow:auto
+    }
+    
+    .sidebar-left {
+        float:left; 
+        width: 20%;
+    background:blue;
+    }
+    
+    .content {
+    float: right;
+        background:pink;
+        width: 80%;
+    }
+    
