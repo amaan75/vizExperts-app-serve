@@ -113,17 +113,17 @@
         <div class="top">
             <div class="center">
                 <div class="line name">
-                    <b>${basics.name.toUpperCase()}</b>
+                    <b>${file.basics.name.toUpperCase()}</b>
                 </div>
-                <div class="line">${basics.location.address}</div>
-                <div class="line">${basics.location.city}, ${ basics.location.region }, ${basics.location.postalCode}</div>
-                <div class="line">${basics.phone}</div>
+                <div class="line">${file.basics.location.address}</div>
+                <div class="line">${file.basics.location.city}, ${ file.basics.location.region }, ${file.basics.location.postalCode}</div>
+                <div class="line">${file.basics.phone}</div>
                 <div class="line email">
-                    <u>${basics.email}</u>
+                    <u>${file.basics.email}</u>
                 </div>
                 <br/>
                 <div class="line">
-                    <i>${basics.objective}</i>
+                    <i>${file.basics.objective}</i>
                 </div>
             </div>
 
@@ -143,22 +143,22 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>${basics.masterDegree}</td>
-                            <td>${basics.masterUniversity}</td>
-                            <td>${basics.masterYear}</td>
-                            <td>${basics.masterMarks}%</td>
+                            <td>${file.basics.masterDegree}</td>
+                            <td>${file.basics.masterUniversity}</td>
+                            <td>${file.basics.masterYear}</td>
+                            <td>${file.basics.masterMarks}%</td>
                         </tr>
                         <tr>
-                            <td>${basics.bachelorDegree}</td>
-                            <td>${basics.bachelorUniversity}</td>
-                            <td>${basics.bachelorYear}</td>
-                            <td>${basics.bachelorMarks}%</td>
+                            <td>${file.basics.bachelorDegree}</td>
+                            <td>${file.basics.bachelorUniversity}</td>
+                            <td>${file.basics.bachelorYear}</td>
+                            <td>${file.basics.bachelorMarks}%</td>
                         </tr>
                         <tr>
-                            <td>${basics.highSchoolDegree}</td>
-                            <td>${basics.highSchoolUniversity}</td>
-                            <td>${basics.highSchoolYear}</td>
-                            <td>${basics.highSchoolMarks}%</td>
+                            <td>${file.basics.highSchoolDegree}</td>
+                            <td>${file.basics.highSchoolUniversity}</td>
+                            <td>${file.basics.highSchoolYear}</td>
+                            <td>${file.basics.highSchoolMarks}%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -169,7 +169,7 @@
                     <b>SKILLS</b>
                 </div>
                 <ul>
-                    ${getSkills(basics.skills)}
+                    ${getSkills(file.basics.skills)}
                 </ul>
             </div>
             <br/>
@@ -181,7 +181,7 @@
 
                 </div>
                 <br/>
-                <div class="declaration-signature">(${basics.name})</div>
+                <div class="declaration-signature">(${file.basics.name})</div>
 
             </div>
         </div>

@@ -1,5 +1,6 @@
 {
   "basics": {
+    "id":"1",
     "name": "John Doe",
     "label": "Programmer",
     "picture": "",
@@ -11,10 +12,10 @@
       "Aiming to use my proven customer service, sales, and communication skills to effectively fill the managerial role in your company. Possess a BA in Communications.",
     "location": {
       "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
+      "postalCode": "560078",
+      "city": "Bangalore",
       "countryCode": "US",
-      "region": "California"
+      "region": "Karntaka"
     },
     "masterDegree": "MCA",
     "masterMarks": 85,

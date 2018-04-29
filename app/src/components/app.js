@@ -1,25 +1,25 @@
 import React from "react";
 import ReactDom from "react-dom";
 import avatar from "../images/avatar.jpg";
-import data from "../data/Data";
 import SingleInput from "./singleinput";
 import TextArea from "./textarea";
+import axios from "axios";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: data.people[0].id,
-      name: data.people[0].name,
-      objective: data.people[0].objective,
-      masterDegree: data.people[0].masterDegree,
-      masterMarks: data.people[0].masterMarks,
-      bachelorDegree: data.people[0].bachelorDegree,
-      bachelorMarks: data.people[0].bachelorMarks,
-      address: data.people[0].address,
-      city: data.people[0].city,
-      region: data.people[0].state,
-      pincode: data.people[0].pincode
+      id: '',
+      name: '',
+      objective: '',
+      masterDegree:'',
+      masterMarks: '',
+      bachelorDegree:'',
+      bachelorMarks: '',
+      address: '',
+      city: '',
+      region: '',
+      pincode: '',
     };
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -51,6 +51,36 @@ export default class App extends React.Component {
       masterDegree: masterDegreeName
     });
     console.log(`the new  degree name is ${masterDegreeName}`);
+  }
+
+  componentDidMount() {
+    this.fetchJsonObj("1");
+  }
+
+  fetchJsonObj(id) {
+    var jsonObj = "";
+    axios
+      .get(`http://localhost:9000/api/fetch/${id}`)
+      .then(res => {
+        jsonObj = res.data.basics;
+        console.log(`${jsonObj.name}`);
+        this.setState({
+          id: jsonObj.id,
+          name: jsonObj.name,
+          objective: jsonObj.objective,
+          masterDegree:jsonObj.masterDegree,
+          masterMarks: jsonObj.masterMarks,
+          bachelorDegree:jsonObj.bachelorDegree,
+          bachelorMarks: jsonObj.bachelorMarks,
+          address: jsonObj.location.address,
+          city: jsonObj.location.city,
+          region: jsonObj.location.region,
+          pincode: jsonObj.location.postalCode
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   handleMasterMarksChange(e) {
