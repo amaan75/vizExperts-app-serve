@@ -15,6 +15,18 @@
       "city": "San Francisco",
       "countryCode": "US",
       "region": "California"
-    }
+    },
+    "masterDegree": "MCA",
+    "masterMarks": 85,
+    "masterUniversity": "Vit Vellore",
+    "masterYear": 2018,
+    "bachelorDegree": "BCA",
+    "bachelorMarks": 85,
+    "bachelorUniversity":"Bangalore University" ,
+    "bachelorYear": 2015,
+    "highSchoolDegree":"HSC",
+    "highSchoolMarks":75,
+    "highSchoolUniversity":"CBSE",
+    "highSchoolYear":2012
   }
 }

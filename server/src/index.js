@@ -41,15 +41,21 @@ function createPdfTemplate() {
               background: rgb(241, 241, 241);
               -webkit-print-color-adjust: exact;
               box-sizing: border-box;
-             
+  
           }
   
           .name {
               font-size: 28px;
-              color: aquamarine;
+              color: darkblue;
           }
-          .email{
+  
+          .email {
               color: blue;
+          }
+  
+          .sub-heading {
+              color: lightseagreen;
+              font-size: 20px;
           }
   
           .page {
@@ -88,11 +94,34 @@ function createPdfTemplate() {
               text-align: center;
           }
   
-          .logo {
-              position: relative;
-              width: 80%;
-              left: 10%;
-              top: 15%;
+          table {
+              width: 100%;
+              text-align: center;
+          }
+  
+          thead {
+              display: table-header-group;
+          }
+  
+          #customers {
+              font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+          }
+  
+          #customers td,
+          #customers th {
+              border: 1px solid #ddd;
+              padding: 8px;
+          }
+  
+  
+          #customers th {
+              padding-top: 12px;
+              padding-bottom: 12px;
+              text-align: left;
+              background-color: lightseagreen;
+              color: white;
           }
       </style>
   </head>
@@ -101,18 +130,55 @@ function createPdfTemplate() {
       <div class="page">
           <div class="top">
               <div class="center">
-  
-                  <div class="line name">${basics.name}</div>
-  
+                  <div class="line name"><b>${basics.name.toUpperCase()}</b></div>
                   <div class="line">${basics.location.address}</div>
                   <div class="line">${basics.location.city}, ${basics.location.region}, ${basics.location.postalCode}</div>
                   <div class="line">${basics.phone}</div>
-                  <div class="line email"><u>${basics.email}</u></div>
+                  <div class="line email">
+                      <u>${basics.email}</u>
+                  </div>
                   <br/>
                   <div class="line">
                       <i>${basics.objective}</i>
                   </div>
+              </div>
   
+              <div class="group">
+                  <div class="sub-heading">
+                      <b>EDUCATION</b>
+                  </div>
+                  <table id="customers">
+                      <thead>
+                          <tr>
+                              <th>Course</th>
+                              <th>University</th>
+                              <th>Year of Passing</th>
+                              <th>Percentage</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>${basics.masterDegree}</td>
+                              <td>${basics.masterUniversity}</td>
+                              <td>${basics.masterYear}</td>
+                              <td>${basics.masterMarks}</td>
+                          </tr>
+                          <tr>
+                              <td>${basics.bachelorDegree}</td>
+                              <td>${basics.bachelorUniversity}</td>
+                              <td>${basics.bachelorYear}</td>
+                              <td>${basics.bachelorMarks}</td>
+                          </tr>
+                          <tr>
+                              <td>${basics.highSchoolDegree}</td>
+                              <td>${basics.highSchoolUniversity}</td>
+                              <td>${basics.highSchoolYear}</td>
+                              <td>${basics.highSchoolMarks}</td>
+                          </tr>
+  
+  
+                      </tbody>
+                  </table>
               </div>
               <div class="group">
                   <div class="line">p: +41 00 000 00 00</div>
@@ -131,6 +197,7 @@ function createPdfTemplate() {
   
   </html>
   `;
+  const template = fs.readFileSync(__dirname+'/html/random.html','utf8');
 
   // fs.writeFile('./html/pdf.html', result, (err) => {
   //   if (err) throw err;
