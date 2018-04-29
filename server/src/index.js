@@ -24,7 +24,7 @@ app.get(`/api/all_connection`, (req, res) => {
 });
 
 function createPdfTemplate() {
-  const result =`
+  const result = `
   <html>
 
   <head>
@@ -61,14 +61,14 @@ function createPdfTemplate() {
           .page {
               position: relative;
               width: 8.27in;
-              height: 11.69in;
+              height: 9.69in;
               display: block;
               margin: 50px;
               overflow: hidden;
           }
   
           @media print {
-              body {}
+  
               .page {
                   margin: 0;
                   height: 100%;
@@ -94,6 +94,10 @@ function createPdfTemplate() {
               text-align: center;
           }
   
+          .declaration-signature {
+              text-align: right;
+          }
+  
           table {
               width: 100%;
               text-align: center;
@@ -103,20 +107,25 @@ function createPdfTemplate() {
               display: table-header-group;
           }
   
-          #customers {
+          .skill-item {
+              text-transform: capitalize;
+          }
+  
+  
+          #education-table {
               font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
               border-collapse: collapse;
               width: 100%;
           }
   
-          #customers td,
-          #customers th {
+          #education-table td,
+          #education-table th {
               border: 1px solid #ddd;
               padding: 8px;
           }
   
   
-          #customers th {
+          #education-table th {
               padding-top: 12px;
               padding-bottom: 12px;
               text-align: left;
@@ -130,9 +139,11 @@ function createPdfTemplate() {
       <div class="page">
           <div class="top">
               <div class="center">
-                  <div class="line name"><b>${basics.name.toUpperCase()}</b></div>
+                  <div class="line name">
+                      <b>${basics.name.toUpperCase()}</b>
+                  </div>
                   <div class="line">${basics.location.address}</div>
-                  <div class="line">${basics.location.city}, ${basics.location.region}, ${basics.location.postalCode}</div>
+                  <div class="line">${basics.location.city}, ${ basics.location.region }, ${basics.location.postalCode}</div>
                   <div class="line">${basics.phone}</div>
                   <div class="line email">
                       <u>${basics.email}</u>
@@ -147,7 +158,8 @@ function createPdfTemplate() {
                   <div class="sub-heading">
                       <b>EDUCATION</b>
                   </div>
-                  <table id="customers">
+                  <br/>
+                  <table id="education-table">
                       <thead>
                           <tr>
                               <th>Course</th>
@@ -161,49 +173,60 @@ function createPdfTemplate() {
                               <td>${basics.masterDegree}</td>
                               <td>${basics.masterUniversity}</td>
                               <td>${basics.masterYear}</td>
-                              <td>${basics.masterMarks}</td>
+                              <td>${basics.masterMarks}%</td>
                           </tr>
                           <tr>
                               <td>${basics.bachelorDegree}</td>
                               <td>${basics.bachelorUniversity}</td>
                               <td>${basics.bachelorYear}</td>
-                              <td>${basics.bachelorMarks}</td>
+                              <td>${basics.bachelorMarks}%</td>
                           </tr>
                           <tr>
                               <td>${basics.highSchoolDegree}</td>
                               <td>${basics.highSchoolUniversity}</td>
                               <td>${basics.highSchoolYear}</td>
-                              <td>${basics.highSchoolMarks}</td>
+                              <td>${basics.highSchoolMarks}%</td>
                           </tr>
-  
-  
                       </tbody>
                   </table>
               </div>
+              <br/>
               <div class="group">
-                  <div class="line">p: +41 00 000 00 00</div>
-                  <div class="line">github: marcbachmann</div>
+                  <div class="sub-heading">
+                      <b>SKILLS</b>
+                  </div>
+                  <ul>
+                      ${getSkills(basics.skills)}
+                  </ul>
               </div>
+              <br/>
               <div class="group">
-                  <div class="line">suitart ag</div>
-                  <div class="line">räffelstrasse 25</div>
-                  <div class="line">8045 zürich</div>
+                  <div class="sub-heading">
+                      <b>DECLARATION</b>
+                  </div>
+                  <div class="line">I here by declare that the information furnished above is true to the best of my knowledge.
+  
+                  </div>
+                  <br/>
+                  <div class="declaration-signature">(${basics.name})</div>
+  
               </div>
           </div>
       </div>
   
-      </div>
+  
   </body>
   
   </html>
   `;
-  const template = fs.readFileSync(__dirname+'/html/random.html','utf8');
+  const template = fs.readFileSync(__dirname + "/html/random.html", "utf8");
 
   // fs.writeFile('./html/pdf.html', result, (err) => {
   //   if (err) throw err;
   //   console.log('The file has been saved!');
   // });
-  const options = { format: "A4" };
+  const options = { "height": "9.69in",        // allowed units: mm, cm, in, px
+  "width": "8.27in",  };
 
   pdf
     .create(result, options)
@@ -212,7 +235,19 @@ function createPdfTemplate() {
       console.log(res); // { filename: '/app/businesscard.pdf' }
     });
 }
-//check the number of people in server every 3 seconds and print their ids
+
+function getSkills(skillArray) {
+  if (skillArray.legth) {
+    return 'Sadly The Person has No Skills';
+  }
+  var res = '';
+  skillArray.forEach(element => {
+   res=res+`<span class="line skill-item"><li>${element}</li></span>` 
+  });
+
+  console.log(res);
+  return res;
+}
 
 app.server.listen(process.env.PORT || PORT, () => {
   console.log(`App is running on port ${app.server.address().port}`);

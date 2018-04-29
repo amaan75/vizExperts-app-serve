@@ -22,11 +22,12 @@
     "masterYear": 2018,
     "bachelorDegree": "BCA",
     "bachelorMarks": 85,
-    "bachelorUniversity":"Bangalore University" ,
+    "bachelorUniversity": "Bangalore University",
     "bachelorYear": 2015,
-    "highSchoolDegree":"HSC",
-    "highSchoolMarks":75,
-    "highSchoolUniversity":"CBSE",
-    "highSchoolYear":2012
+    "highSchoolDegree": "HSC",
+    "highSchoolMarks": 75,
+    "highSchoolUniversity": "CBSE",
+    "highSchoolYear": 2012,
+    "skills": ["java", "android", "flutter", "nodejs"]
   }
 }

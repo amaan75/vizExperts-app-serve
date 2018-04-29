@@ -34,14 +34,14 @@
         .page {
             position: relative;
             width: 8.27in;
-            height: 11.69in;
+            height: 9.69in;
             display: block;
             margin: 50px;
             overflow: hidden;
         }
 
         @media print {
-            body {}
+
             .page {
                 margin: 0;
                 height: 100%;
@@ -67,6 +67,10 @@
             text-align: center;
         }
 
+        .declaration-signature {
+            text-align: right;
+        }
+
         table {
             width: 100%;
             text-align: center;
@@ -75,6 +79,11 @@
         thead {
             display: table-header-group;
         }
+
+        .skill-item {
+            text-transform: capitalize;
+        }
+
 
         #education-table {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -107,7 +116,7 @@
                     <b>${basics.name.toUpperCase()}</b>
                 </div>
                 <div class="line">${basics.location.address}</div>
-                <div class="line">${basics.location.city}, ${basics.location.region}, ${basics.location.postalCode}</div>
+                <div class="line">${basics.location.city}, ${ basics.location.region }, ${basics.location.postalCode}</div>
                 <div class="line">${basics.phone}</div>
                 <div class="line email">
                     <u>${basics.email}</u>
@@ -151,30 +160,34 @@
                             <td>${basics.highSchoolYear}</td>
                             <td>${basics.highSchoolMarks}%</td>
                         </tr>
-
-
                     </tbody>
                 </table>
             </div>
             <br/>
             <div class="group">
                 <div class="sub-heading">
-                    SKILLS
+                    <b>SKILLS</b>
                 </div>
+                <ul>
+                    ${getSkills(basics.skills)}
+                </ul>
             </div>
+            <br/>
             <div class="group">
-                <div class="line">p: +41 00 000 00 00</div>
-                <div class="line">github: marcbachmann</div>
-            </div>
-            <div class="group">
-                <div class="line">suitart ag</div>
-                <div class="line">räffelstrasse 25</div>
-                <div class="line">8045 zürich</div>
+                <div class="sub-heading">
+                    <b>DECLARATION</b>
+                </div>
+                <div class="line">I here by declare that the information furnished above is true to the best of my knowledge.
+
+                </div>
+                <br/>
+                <div class="declaration-signature">(${basics.name})</div>
+
             </div>
         </div>
     </div>
 
-    </div>
+
 </body>
 
 </html>
