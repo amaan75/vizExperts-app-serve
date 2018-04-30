@@ -77,7 +77,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Project",
+      title: "VizExperts Experiment",
       minify: {
         collapseWhitespace: true
       },
