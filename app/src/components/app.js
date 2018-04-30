@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDom from "react-dom";
-import avatar from "../images/avatar.jpg";
+import resume1 from "../images/resume1.png";
+import resume2 from "../images/resume2.png";
 import SingleInput from "./singleinput";
 import TextArea from "./textarea";
 import axios from "axios";
+import downloader from "./download";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -69,6 +71,9 @@ export default class App extends React.Component {
       this
     );
     this.handleSkillChange = this.handleSkillChange.bind(this);
+    this.downloadPdf = this.downloadPdf.bind(this);
+    this.handleImageClick1 = this.handleImageClick1.bind(this, "1");
+    this.handleImageClick2 = this.handleImageClick2.bind(this, "2");
   }
 
   componentDidMount() {
@@ -165,7 +170,9 @@ export default class App extends React.Component {
   }
 
   handleMasterYearChange(e) {
-    const masterYearNumber = e.target.value;
+    const masterYearNumber = e.target.validity.valid
+      ? e.target.value
+      : this.state.masterYear;
     if (Number(masterYearNumber) > 9999 && 4 !== masterYearNumber.length) {
       return;
     }
@@ -203,7 +210,9 @@ export default class App extends React.Component {
   }
 
   handleBachelorYearChange(e) {
-    const bachelorYearNumber = e.target.value;
+    const bachelorYearNumber = e.target.validity.valid
+      ? e.target.value
+      : this.state.bachelorYear;
     if (Number(bachelorYearNumber) > 9999 && 4 !== bachelorYearNumber.length) {
       return;
     }
@@ -241,7 +250,9 @@ export default class App extends React.Component {
   }
 
   handleHighSchoolYearChange(e) {
-    const highSchoolYearNumber = e.target.value;
+    const highSchoolYearNumber = e.target.validity.valid
+      ? e.target.value
+      : this.state.highSchoolYear;
     if (
       Number(highSchoolYearNumber) > 9999 &&
       4 !== highSchoolYearNumber.length
@@ -296,6 +307,16 @@ export default class App extends React.Component {
     console.log(`Career Objective changed to ${careerObjective}`);
   }
 
+  handleImageClick1(param, e) {
+    e.preventDefault();
+    this.fetchJsonObj(param);
+  }
+
+  handleImageClick2(param, e) {
+    e.preventDefault();
+    this.fetchJsonObj(param);
+  }
+
   handlePincodeChange(e) {
     const pin = e.target.validity.valid ? e.target.value : this.state.pincode;
     this.setState({
@@ -304,12 +325,20 @@ export default class App extends React.Component {
     console.log(`The pincode has now become ${pin}`);
   }
 
-  downloadPdf() {
-    console.log("download pdf");
+  downloadPdf(e) {
+    e.preventDefault();
+    const { id } = this.state;
+    console.log("download pdf " + id + " to be downloaded");
+    axios
+      .get(`http://localhost:9000/api/download/${id}`, { responseType: "blob" })
+      .then(res => {
+        downloader(res.data, "resume.pdf");
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
-  
-  
   handleFormSubmit(e) {
     e.preventDefault();
     const {
@@ -369,7 +398,7 @@ export default class App extends React.Component {
 
   postChanges(payLoad) {
     const id = payLoad.basics.id;
-    //console.log(payLoad);
+    console.log(payLoad);
     axios
       .post(`/api/updatechanges/${id}`, payLoad)
       .then(res => {
@@ -413,15 +442,22 @@ export default class App extends React.Component {
           <div className="channels">
             <div className="channel">
               <div className="user-image">
-                <img src={avatar} alt="empty avatar" />
+                <img
+                  src={resume1}
+                  onClick={this.handleImageClick1}
+                  alt="Resume for person 1"
+                />
               </div>
-              <div className="channel-info">
-                <h2>{name}</h2>
+              <div className="user-image">
+                <img
+                  src={resume2}
+                  onClick={this.handleImageClick2}
+                  alt="Resume for person 2"
+                />
               </div>
             </div>
           </div>
         </div>
-
         <div className="content">
           <form onSubmit={this.handleFormSubmit} className="container">
             <h3>Resume</h3>
@@ -605,11 +641,17 @@ export default class App extends React.Component {
             />
             <input
               type="submit"
-              className="btn btn-primary float-right"
-              value="Submit"
+              className="btn float-right"
+              style={{
+                color: "white",
+                backgroundColor: "seagreen",
+                borderColor: "green"
+              }}
+              value="Save"
             />
             <button
-              className="btn btn-link float-left"
+              className="btn btn-primary float-right"
+              style={{ marginRight: "8px" }}
               onClick={this.downloadPdf}
             >
               Download Pdf

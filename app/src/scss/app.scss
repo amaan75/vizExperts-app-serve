@@ -33,6 +33,16 @@ body {
     flex-shrink: 2;
     flex-grow: 1;
     border-right: 10px solid $border-color;
+    .user-image{
+      height: 50%;
+      width:300px;
+      margin-top: 12px;
+      overflow: hidden;
+      img{
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
   }
 
   .content {

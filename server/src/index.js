@@ -8,7 +8,8 @@ import bodyParser from "body-parser";
 
 const PORT = 3000;
 const app = express();
-const storageDirectory = __dirname + "/data/";
+const jsonStorageDirectory = __dirname + "/data/";
+const pdfStorageDirectory = __dirname + "/pdf/resume.pdf";
 var file = null;
 app.server = http.createServer(app);
 app.use(bodyParser.json());
@@ -20,17 +21,30 @@ app.get(`/api`, (req, res) => {
   });
 });
 
+app.get(`/api/download/:id`,(req, res) => {
+  const id = req.params.id;
+  const temp = fs.readFileSync(jsonStorageDirectory + `${id}.json`);
+  file = JSON.parse(temp);
+  console.log("/api/download/:id"+id+"request to download pdf");
+  createPdfTemplate(res);
+  
+//   const data =fs.readFileSync(pdfStorageDirectory);
+//   res.contentType("application/pdf");
+//   console.log("/api/download/:id"+id+"request to download pdf");
+//   res.send(data);
+});
+
 app.post(`/api/updatechanges/:id`, (req, res) => {
   const id = req.params.id;
   //console.log(req.body);
   const data = req.body;
   //console.log(data);
   file = data;
-  createPdfTemplate();
-  fs.writeFileSync(storageDirectory + `${id}.json`, JSON.stringify(data));
+  //createPdfTemplate();
+  fs.writeFileSync(jsonStorageDirectory + `${id}.json`, JSON.stringify(data));
 
-  console.log(file.basics.name);
-  
+  console.log("Request to change json file with "+file.basics.id);
+
   res.json({ success: "true" });
 });
 
@@ -44,14 +58,14 @@ app.get(`/api/fetch/:id`, (req, res) => {
   //const template = fs.readFileSync(__dirname + "/html/random.html", "utf8")
 });
 
-app.get(`/api/all_connection`, (req, res) => {
+app.get(``, (req, res) => {
   //createPdfTemplate();
   res.json({
     body: "success"
   });
 });
 
-function createPdfTemplate() {
+function createPdfTemplate(response) {
   console.log("started pdf rendering");
   const result = `
   <html>
@@ -250,28 +264,28 @@ function createPdfTemplate() {
 
 </html>
   `;
-//   const template = fs.readFileSync(__dirname + "/html/pdf.html", "utf8");
-//   pdf
-//     .create(template, { format: "letter" })
-//     .toFile("./html/something.pdf", function(err, res) {
-//       if (err) throw err;
-//       console.log(res);
-//     });
+  //   const template = fs.readFileSync(__dirname + "/html/pdf.html", "utf8");
+  //   pdf
+  //     .create(template, { format: "letter" })
+  //     .toFile("./html/something.pdf", function(err, res) {
+  //       if (err) throw err;
+  //       console.log(res);
+  //     });
   // fs.writeFile('./html/pdf.html', result, (err) => {
   //   if (err) throw err;
- // console.log("The file has been saved!");
+  // console.log("The file has been saved!");
   // });
   const options = {
     height: "9.69in", // allowed units: mm, cm, in, px
     width: "8.27in"
   };
 
-  pdf
-    .create(result, options)
-    .toFile("./src/html/resume.pdf", function(err, res) {
-      if (err) return console.log(err);
-      console.log(res); // { filename: '/app/businesscard.pdf' }
-    });
+  pdf.create(result, options).toFile(pdfStorageDirectory, function(err, res) {
+    if (err) return console.log(err);
+    const data =fs.readFileSync(pdfStorageDirectory);
+    response.contentType("application/pdf");
+    response.send(data); // { filename: '/app/businesscard.pdf' }
+  });
 }
 
 function getSkills(skillArray) {
