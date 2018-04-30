@@ -5,4 +5,5 @@ TO run the project please go to the root of both folders
 2. [server](https://github.com/amaan75/vizExperts-app-serve/tree/master/server)
 
 and when you are there type\
-`npm run dev`
+`npm run dev`\
+please run the server first and then the app.
