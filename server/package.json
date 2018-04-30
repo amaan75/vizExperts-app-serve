@@ -4,7 +4,7 @@
   "description": "render pdf application",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -w src --exec \"babel-node src --presets env,stage-0\"",
+    "dev": "nodemon -w src/*.js --exec \"babel-node src --presets env,stage-0\"",
     "build": "babel src -s -D -d dist --presets env,stage-0",
     "start": "node dist",
     "prestart": "npm run -s build",
@@ -27,6 +27,7 @@
   "author": "amangulati075@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "html-pdf": "^2.2.0"
   },

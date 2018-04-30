@@ -4,11 +4,15 @@ import { version } from "../package.json";
 import pdf from "html-pdf";
 import fs from "fs";
 import path from "path";
+import bodyParser from "body-parser";
 
 const PORT = 3000;
 const app = express();
+const storageDirectory = __dirname + "/data/";
 var file = null;
 app.server = http.createServer(app);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get(`/api`, (req, res) => {
   res.json({
@@ -16,10 +20,23 @@ app.get(`/api`, (req, res) => {
   });
 });
 
+app.post(`/api/updatechanges/:id`, (req, res) => {
+  const id = req.params.id;
+  //console.log(req.body);
+  const data = req.body;
+  //console.log(data);
+  file = data;
+  createPdfTemplate();
+  fs.writeFileSync(storageDirectory + `${id}.json`, JSON.stringify(data));
+
+  console.log(file.basics.name);
+  
+  res.json({ success: "true" });
+});
+
 app.get(`/api/fetch/:id`, (req, res) => {
   const id = req.params.id;
   const temp = fs.readFileSync(__dirname + `/data/${id}.json`);
-  
   file = JSON.parse(temp);
   console.log(`request recieved ${file.basics.name}`);
   // createPdfTemplate();
@@ -28,13 +45,14 @@ app.get(`/api/fetch/:id`, (req, res) => {
 });
 
 app.get(`/api/all_connection`, (req, res) => {
-  createPdfTemplate();
+  //createPdfTemplate();
   res.json({
     body: "success"
   });
 });
 
 function createPdfTemplate() {
+  console.log("started pdf rendering");
   const result = `
   <html>
 
@@ -232,11 +250,16 @@ function createPdfTemplate() {
 
 </html>
   `;
-  //const template = fs.readFileSync(__dirname + "/html/random.html", "utf8");
-
+//   const template = fs.readFileSync(__dirname + "/html/pdf.html", "utf8");
+//   pdf
+//     .create(template, { format: "letter" })
+//     .toFile("./html/something.pdf", function(err, res) {
+//       if (err) throw err;
+//       console.log(res);
+//     });
   // fs.writeFile('./html/pdf.html', result, (err) => {
   //   if (err) throw err;
-  //   console.log('The file has been saved!');
+ // console.log("The file has been saved!");
   // });
   const options = {
     height: "9.69in", // allowed units: mm, cm, in, px
