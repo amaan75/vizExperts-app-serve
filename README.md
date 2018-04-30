@@ -6,4 +6,4 @@ TO run the project please go to the root of both folders
 
 and when you are there type\
 `npm run dev`\
-please run the server first and then the app.
+please run the server(port:3000) first and then the app(port:9000).
